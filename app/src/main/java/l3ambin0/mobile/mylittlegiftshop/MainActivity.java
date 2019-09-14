@@ -17,6 +17,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -39,10 +42,18 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        resetGlobals();
+
         fc = FragmentChanger.getInstance(this);
-        MyFragment fr = new FrLogin();
+        Fragment fr = new FrLogin();
         fc.changeFragment(this, fr);
 
+    }
+
+    private void resetGlobals(){
+        Constants.app = (AppCompatActivity) this;
+        Constants.MAP_FR = new HashSet<>();
+        Constants.MAP_FR_TITLES = new HashMap<>();
     }
 
     @Override
@@ -71,7 +82,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+//        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -94,7 +105,7 @@ public class MainActivity extends AppCompatActivity
         Constants.selectedItem = item;
         Constants.selectedItem.setChecked(true);
 
-        MyFragment fr;
+        Fragment fr;
         fc = FragmentChanger.getInstance(this);
         switch (id){
             default:

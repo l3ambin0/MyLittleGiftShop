@@ -10,32 +10,34 @@ import android.support.v7.app.AppCompatActivity;
 public class FragmentChanger {
     private static FragmentChanger fc;
     private Context cntxt;
-    private FragmentChanger(){
+    private FragmentChanger(Context cntxt){
         Constants.MAP_FR_TITLES.put(FrLogin.class, cntxt.getString(R.string.title_login));
-
     };
 
-    public static FragmentChanger getInstance(Context cntxt){
-        cntxt = cntxt;
+    public static FragmentChanger getInstance(Context _cntxt){
         if(fc == null)
-            fc = new FragmentChanger();
+            fc = new FragmentChanger(_cntxt);
         return fc;
     }
 
-    public boolean changeFragment(Context cntxt, MyFragment fr) {
+    private void setCntxt(Context cntxt) {
+        this.cntxt = cntxt;
+    }
+
+    public boolean changeFragment(Context cntxt, Fragment fr) {
         try {
-            final AppCompatActivity activity = (AppCompatActivity) cntxt;
             String title = cntxt.getString(R.string.app_name);
 
             if (fr != null) {
                 FragmentTransaction ft = Constants.app.getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.content_frame, fr);
                 ft.commit();
-                Constants.MAP_FR.put(fr.getClass(), fr);
+                Constants.MAP_FR.add(fr);
             }
 
             if (Constants.app.getSupportActionBar() != null) {
-                Constants.app.getSupportActionBar().setTitle(title + ((fr.title.toString().compareTo("") != 0) ? " - " + fr.title : ""));
+                String second_title = Constants.MAP_FR_TITLES.get(fr.getClass());
+                Constants.app.getSupportActionBar().setTitle(title + ((second_title.compareTo("") != 0) ? " - " + second_title : ""));
             }
 
             DrawerLayout drawer = (DrawerLayout) Constants.app.findViewById(R.id.drawer_layout);
