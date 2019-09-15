@@ -24,5 +24,10 @@
     <string name="title_register">Register</string>
     <string name="title_admin">Administration</string>
 
+    <string name="lbl_username">Username:</string>
+    <string name="lbl_password">Password:</string>
+    <string name="lbl_fullname">Full name:</string>
+    <string name="lbl_description">Description:</string>
+    <string name="lbl_image">Image:</string>
 
 </resources>

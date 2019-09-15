@@ -7,23 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class FrLogin extends MyFragment{
-
+public class FrLogin extends Fragment{
     View rootView;
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try {
             rootView = inflater.inflate(R.layout.fr_login, container, false);
             Constants.MAP_FR.add(this);
+            Constants.MAP_FR_TITLES.put(this.getClass(), getString(R.string.title_login));
             Constants.FragmentActiveClass = this.getClass();
-            title = this.getString(R.string.title_login);
+            super.onCreateView(inflater,container,savedInstanceState);
             return rootView;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-
 }
