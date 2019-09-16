@@ -17,9 +17,11 @@ public class cat_users {
     @DatabaseField()
     private String full_name;
 
+    @DatabaseField()
+    private int user_level;
+
     public cat_users() {
     }
-
     public int getId() {
         return id;
     }
@@ -46,5 +48,13 @@ public class cat_users {
 
     public void setFull_name(String full_name) {
         this.full_name = full_name;
+    }
+
+    public int getUser_level() {
+        return user_level;
+    }
+
+    public void setUser_level(int user_level) {
+        this.user_level = user_level;
     }
 }

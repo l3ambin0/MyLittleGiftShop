@@ -30,11 +30,10 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     private RuntimeExceptionDao<cat_users_levels, Integer> cat_users_levels_runtime_DAO = null;
     private Dao<rel_product_category, Integer> rel_product_category_DAO = null;
     private RuntimeExceptionDao<rel_product_category, Integer> rel_product_category_runtime_DAO = null;
-    private Dao<rel_user_level, Integer> rel_user_level_DAO = null;
-    private RuntimeExceptionDao<rel_user_level, Integer> rel_user_level_runtime_DAO = null;
 
-    public DBHelper(Context context, String databaseName, SQLiteDatabase.CursorFactory factory, int databaseVersion, File configFile) {
-        super(context, databaseName, factory, databaseVersion, configFile);
+
+    public DBHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
     }
 
     @Override
@@ -55,40 +54,56 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         cat_users_DAO = null;
         cat_users_levels_DAO = null;
         rel_product_category_DAO = null;
-        rel_user_level_DAO = null;
         super.close();
     }
 
     private void createOrDrop(String opt, ConnectionSource conn){
-        HashSet<Object> tables = new HashSet<>();
-        tables.add(cat_categories.class);
-        tables.add(cat_products.class);
-        tables.add(cat_users.class);
-        tables.add(cat_users_levels.class);
-        tables.add(rel_product_category.class);
-        tables.add(rel_user_level.class);
-
         switch (opt.toLowerCase()){
             case "create":
-                for (Object t : tables){
-                    try {
-                        TableUtils.createTable(conn, t.getClass());
-                    }
-                    catch (SQLException e){
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
+                try {
+                    TableUtils.createTable(conn, cat_categories.class);
+                    TableUtils.createTable(conn, cat_products.class);
+
+                    TableUtils.createTable(conn, cat_users.class);
+                    cat_users def = new cat_users();
+                    def.setUsername("admin");
+                    def.setPassword("admin");
+                    def.setFull_name("admin");
+                    def.setUser_level(2);
+                    get_cat_users_DAO().create(def);
+
+                    def.setUsername("user");
+                    def.setPassword("user");
+                    def.setFull_name("user");
+                    def.setUser_level(1);
+                    get_cat_users_DAO().create(def);
+
+                    TableUtils.createTable(conn, cat_users_levels.class);
+                    cat_users_levels ul = new cat_users_levels();
+                    ul.setName("User");
+                    get_cat_users_levels_DAO().create(ul);
+                    ul.setName("Admin");
+                    get_cat_users_levels_DAO().create(ul);
+
+                    TableUtils.createTable(conn, rel_product_category.class);
+                }
+                catch (SQLException e){
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
                 break;
             case "drop":
-                for (Object t : tables){
-                    try {
-                        TableUtils.dropTable(conn, t.getClass(), true);
-                    }
-                    catch (SQLException e){
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
+                try {
+                    TableUtils.dropTable(conn, cat_categories.class, true);
+                    TableUtils.dropTable(conn, cat_products.class, true);
+                    TableUtils.dropTable(conn, cat_users.class, true);
+                    TableUtils.dropTable(conn, cat_users_levels.class, true);
+                    TableUtils.dropTable(conn, rel_product_category.class, true);
+
+                }
+                catch (SQLException e){
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
                 break;
         }
@@ -148,17 +163,6 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     public RuntimeExceptionDao<rel_product_category, Integer> rel_product_category_runtime_DAO() {
         if(rel_product_category_runtime_DAO == null) rel_product_category_runtime_DAO = getRuntimeExceptionDao(rel_product_category.class);
         return rel_product_category_runtime_DAO;
-    }
-
-    //    rel_user_level
-    public Dao<rel_user_level, Integer> get_rel_user_level_DAO() throws SQLException {
-        if(rel_user_level_DAO==null) rel_user_level_DAO = getDao(rel_user_level.class);
-        return rel_user_level_DAO;
-    }
-
-    public RuntimeExceptionDao<rel_user_level, Integer> get_rel_user_level_runtime_DAO() {
-        if(rel_user_level_runtime_DAO == null) rel_user_level_runtime_DAO = getRuntimeExceptionDao(rel_user_level.class);
-        return rel_user_level_runtime_DAO;
     }
 
 }

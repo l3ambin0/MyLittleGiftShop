@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_ll"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        style="@style/module_title"
+        android:text="@string/title_products_management"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            style="@style/label.right"
+            android:text="@string/lbl_product_name"
+            />
+
+        <EditText
+            style="@style/input_fld.text"
+            android:id="@+id/txt_product_name"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            style="@style/label.right"
+            android:text="@string/lbl_description"
+            />
+
+        <EditText
+            style="@style/input_fld.text.multi"
+            android:id="@+id/txt_description"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            style="@style/label.right"
+            android:text="@string/lbl_price"
+            />
+
+        <EditText
+            style="@style/input_fld.decimal"
+            android:id="@+id/txt_price"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            style="@style/label.right"
+            android:text="@string/lbl_image"
+            android:layout_height="match_parent"
+            />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="120dp"
+            android:src="@drawable/img_holder"
+            android:clickable="true"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            style="@style/label.right"
+            android:text="@string/lbl_categories"
+            android:layout_weight="6"
+            />
+
+        <Spinner
+            style="@style/spinner_fld"
+            android:id="@+id/cbo_categories"
+            android:layout_weight="5"
+            />
+
+        <Button
+            style="@style/Button.green"
+            android:text="+"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+             />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <TextView
+            style="@style/label.right" />
+        
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/div_cat_selected"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <include layout="@layout/buttons" />
+
+</LinearLayout>

@@ -12,7 +12,8 @@ public class FragmentChanger {
     private Context cntxt;
     private FragmentChanger(Context cntxt){
         Constants.MAP_FR_TITLES.put(FrLogin.class, cntxt.getString(R.string.title_login));
-    };
+        Constants.MAP_FR_TITLES.put(FrUserRecords.class, cntxt.getString(R.string.title_username_management));
+    }
 
     public static FragmentChanger getInstance(Context _cntxt){
         if(fc == null)
@@ -37,10 +38,11 @@ public class FragmentChanger {
 
             if (Constants.app.getSupportActionBar() != null) {
                 String second_title = Constants.MAP_FR_TITLES.get(fr.getClass());
-                Constants.app.getSupportActionBar().setTitle(title + ((second_title.compareTo("") != 0) ? " - " + second_title : ""));
+                if(second_title != null)
+                    Constants.app.getSupportActionBar().setTitle(title + ((second_title.compareTo("") != 0) ? " - " + second_title : ""));
             }
 
-            DrawerLayout drawer = (DrawerLayout) Constants.app.findViewById(R.id.drawer_layout);
+            DrawerLayout drawer = Constants.app.findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
 
             return true;

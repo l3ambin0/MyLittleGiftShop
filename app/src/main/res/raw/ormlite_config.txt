@@ -1,0 +1,100 @@
+#
+# generated on 2019/09/15 04:17:58
+#
+# --table-start--
+dataClass=l3ambin0.mobile.mylittlegiftshop.models.cat_categories
+tableName=cat_categories
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+indexName=cat_categories_name_idx
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=l3ambin0.mobile.mylittlegiftshop.models.cat_products
+tableName=cat_products
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+indexName=cat_products_name_idx
+# --field-end--
+# --field-start--
+fieldName=description
+# --field-end--
+# --field-start--
+fieldName=image
+# --field-end--
+# --field-start--
+fieldName=price
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=l3ambin0.mobile.mylittlegiftshop.models.cat_users
+tableName=cat_users
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=username
+indexName=cat_users_username_idx
+# --field-end--
+# --field-start--
+fieldName=password
+# --field-end--
+# --field-start--
+fieldName=full_name
+# --field-end--
+# --field-start--
+fieldName=user_level
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=l3ambin0.mobile.mylittlegiftshop.models.cat_users_levels
+tableName=cat_users_levels
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+indexName=cat_users_levels_name_idx
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=l3ambin0.mobile.mylittlegiftshop.models.rel_product_category
+tableName=rel_product_category
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=product_id
+indexName=rel_product_category_product_id_idx
+# --field-end--
+# --field-start--
+fieldName=category_id
+indexName=rel_product_category_category_id_idx
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

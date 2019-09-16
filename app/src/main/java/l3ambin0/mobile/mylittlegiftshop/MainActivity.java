@@ -17,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -54,6 +56,9 @@ public class MainActivity extends AppCompatActivity
         Constants.app = (AppCompatActivity) this;
         Constants.MAP_FR = new HashSet<>();
         Constants.MAP_FR_TITLES = new HashMap<>();
+        Constants.MAP_SESSION = new HashMap<>();
+
+        Constants.dbH = new DBHelper(this);
     }
 
     @Override
@@ -107,14 +112,42 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fr;
         fc = FragmentChanger.getInstance(this);
-        switch (id){
-            default:
+        switch (id) {
+            case R.id.nav_admin_users:
+                fr = new FrUserRecords();
+                fc.changeFragment(this, fr);
+                break;
+
+            case R.id.nav_admin_products:
+                fr = new FrProductsRecords();
+                fc.changeFragment(this, fr);
+                break;
+
+            case R.id.nav_about:
+                Utils.showAbout();
+                break;
+
+            case R.id.nav_login:
                 fr = new FrLogin();
                 fc.changeFragment(this, fr);
+                break;
+
+            case R.id.nav_exit:
+                finish();
+                break;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(Constants.dbH != null){
+            OpenHelperManager.releaseHelper();
+            Constants.dbH = null;
+        }
     }
 }
