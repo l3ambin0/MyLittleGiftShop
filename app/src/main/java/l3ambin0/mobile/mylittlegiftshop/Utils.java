@@ -1,18 +1,34 @@
 package l3ambin0.mobile.mylittlegiftshop;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.ExifInterface;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -22,15 +38,26 @@ import android.widget.Toast;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import l3ambin0.mobile.mylittlegiftshop.models.cat_users;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.Manifest.permission_group.CAMERA;
 
 public class Utils {
     private static Context cntxt = MyApp.getAppContext();
@@ -297,6 +324,13 @@ public class Utils {
         return ll;
     }
 
+    public static void addToCart(ProductCard pr){
+        Constants.shoppingCart.add(pr);
+    }
+
+    public static void removeFromCart(ProductCard pr){
+        Constants.shoppingCart.remove(pr);
+    }
 
     protected static void showAbout() {
         // Inflate the about message contents
@@ -329,6 +363,208 @@ public class Utils {
         }
     }
 
+    // IMAGE VIEW METHODS
+
+    public static boolean putOnImageView(ImageView iv, Bitmap bitmap, float rotation){
+        try{
+            if(bitmap.getWidth() > 4096 || bitmap.getHeight() > 4096){
+                int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
+                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+                iv.setImageBitmap(scaled);
+                iv.setRotation(rotation);
+
+            }
+            else{
+                iv.setImageBitmap(bitmap);
+            }
+            return true;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static float getCameraPhotoOrientation(String imagePath){
+        int rotate = 0;
+        try {
+//            cntxt.getContentResolver().notifyChange(imageUri, null);
+            File imageFile = new File(imagePath);
+
+            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+            }
+            Log.i("RotateImage", "Exif orientation: " + orientation);
+            Log.i("RotateImage", "Rotate value: " + rotate);
+            return rotate;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rotate;
+    }
+
+
+    public static boolean putOnImageView(ImageView iv, String file, float rotation){
+        try{
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            Bitmap bitmap = BitmapFactory.decodeFile(file, options);
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            if(bitmap.getWidth() > 4096 || bitmap.getHeight() > 4096){
+                int nh = (int) (bitmap.getHeight() * (800.0 / bitmap.getWidth()));
+                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 800, nh, true);
+                iv.setImageBitmap(scaled);
+                iv.setRotation(rotation);
+            }
+            else{
+                iv.setImageBitmap(bitmap);
+            }
+            return true;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // CAMERA AND GALLERY METHODS
+    public static void showPictureDialog(final int holder){
+        android.app.AlertDialog.Builder pictureDialog = new android.app.AlertDialog.Builder(Constants.app);
+        pictureDialog.setTitle(cntxt.getString(R.string.msg_action_select));
+        String[] pictureDialogItems = {
+                cntxt.getString(R.string.msg_from_gallery),
+                cntxt.getString(R.string.msg_from_camera) };
+        pictureDialog.setItems(pictureDialogItems,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                choosePhotoFromGallery(holder);
+                                break;
+                            case 1:
+                                takePhotoFromCamera(holder);
+                                break;
+                        }
+                    }
+                });
+        pictureDialog.show();
+    }
+
+    public static void choosePhotoFromGallery(int holder) {
+        try {
+            int permissionCheck = ContextCompat.checkSelfPermission(Constants.app,
+                    READ_EXTERNAL_STORAGE);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        Constants.app,
+                        new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
+                        Constants.PERMISSION_GALLERY_CODE
+                );
+                return;
+            }
+            openGallery(holder);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void openGallery(int holder){
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Constants.app.startActivityForResult(galleryIntent, (Constants.GALLERY_CODE + holder));
+    }
+
+    private static void takePhotoFromCamera(int holder) {
+        try {
+            int permissionCheck = ContextCompat.checkSelfPermission(Constants.app, Manifest.permission.CAMERA);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        Constants.app,
+                        new String[]{Manifest.permission.CAMERA, CAMERA},
+                        Constants.PERMISSION_CAMERA_CODE
+                );
+                return;
+            }
+            openCamera(holder);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void openCamera(int holder){
+        try {
+            String pictureImagePath = "";
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = timeStamp + ".jpg";
+            File storageDir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES);
+            pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
+            Constants.tmpImageName = pictureImagePath;
+            File file = new File(pictureImagePath);
+//            Uri outputFileUri = Uri.fromFile(file);
+            Uri outputFileUri = FileProvider.getUriForFile(Constants.app, Constants.app.getApplicationContext().getPackageName() + ".fileprovider", file);
+
+            Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            Constants.app.startActivityForResult(intent, (Constants.CAMERA_CODE + holder));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static String saveImage(Bitmap myBitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        try {
+            PackageManager m = cntxt.getPackageManager();
+            String s = cntxt.getPackageName();
+            try {
+                PackageInfo p = m.getPackageInfo(s, 0);
+                s = p.applicationInfo.dataDir;
+            } catch (PackageManager.NameNotFoundException pe) {
+                Log.w(Constants.app_name.replace(" ", "_"), "Error Package name not found ", pe);
+            }
+
+            File f = new File(s, Calendar.getInstance()
+                    .getTimeInMillis() + ".png");
+            File dirFile = new File(f.getParent());
+            if (!dirFile.exists()) {
+                dirFile.mkdirs();
+            }
+
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(cntxt,
+                    new String[]{f.getPath()},
+                    new String[]{"image/png"}, null);
+            fo.close();
+            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
+            return f.getAbsolutePath();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return "";
+    }
+
+
+
 //    LOGIN AND LOGOUT METHODS
 
     public static boolean login(String username, String password) throws SQLException {
@@ -352,6 +588,8 @@ public class Utils {
             return false;
         }
     }
+
+
 
     public static void logout(){
         Constants.MAP_SESSION.clear();

@@ -80,6 +80,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="120dp"
+            android:id="@+id/imgview_new_product"
             android:src="@drawable/img_holder"
             android:clickable="true"
             />

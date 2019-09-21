@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class FrUserNew extends Fragment {
     }
 
     private void setDefaults() throws SQLException {
+
         TextView tv;
         tv = rootView.findViewById(R.id.title);
         tv.setText(getString(R.string.title_new, "user"));

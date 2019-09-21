@@ -63,6 +63,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
                 try {
                     TableUtils.createTable(conn, cat_categories.class);
                     TableUtils.createTable(conn, cat_products.class);
+                    cat_products pr = new cat_products();
 
                     TableUtils.createTable(conn, cat_users.class);
                     cat_users def = new cat_users();

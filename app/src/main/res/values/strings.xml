@@ -13,7 +13,8 @@
     <string name="menu_home">Home</string>
     <string name="menu_general">General</string>
     <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_show_products">Go Shopping!</string>
+    <string name="menu_show_shopping_cart">View cart</string>
     <string name="menu_tools">Tools</string>
     <string name="menu_about">About</string>
     <string name="menu_send">Send</string>
@@ -45,6 +46,7 @@
     <string name="lbl_password">Password:</string>
     <string name="lbl_product_name">Product name:</string>
     <string name="lbl_price">Price ($):</string>
+    <string name="lbl_price2">Price ($)</string>
     <string name="lbl_description">Description:</string>
     <string name="lbl_user_level">Access level:</string>
     <string name="lbl_categories">Categories:</string>
@@ -55,6 +57,7 @@
     <string name="lbl_full_name">Full name:</string>
     <string name="lbl_category_name">Category name:</string>
     <string name="lbl_add">+ Add record</string>
+    <string name="lbl_add_to_cart">&#8680;</string>
     <string name="lbl_actions">Actions</string>
 
     <string name="hint_username">Enter username</string>
@@ -64,6 +67,7 @@
     <string name="validation_error_1">Write a username</string>
     <string name="validation_error_2">Write a password</string>
     <string name="validation_error_3">Username/Password doesn\'t match, please try again</string>
+    <string name="validation_error_4">Select or take a picture for the product</string>
     <string name="validation_verify_value">Please verify value of %1$s</string>
 
     <string name="icon_edit">&#x270E;</string>
@@ -75,6 +79,11 @@
     <string name="msg_sure_delete">Are you sure you want to delete?</string>
 
     <string name="title_deleting">Deleting record...</string>
+
+    <string name="msg_action_select">Select one:</string>
+    <string name="msg_from_gallery">Select from gallery</string>
+    <string name="msg_from_camera">Take a picture</string>
+
 
 
 </resources>

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ public class FrProductNew extends Fragment {
             Constants.MAP_FR.add(this);
             Constants.MAP_FR_TITLES.put(this.getClass(), getString(R.string.title_products_management));
             Constants.fragmentActiveClass = this.getClass();
+            Constants.iv_new_product = rootView.findViewById(R.id.imgview_new_product);
             super.onCreateView(inflater,container,savedInstanceState);
             setDefaults();
             return rootView;
@@ -43,6 +45,10 @@ public class FrProductNew extends Fragment {
     }
 
     private void setDefaults() throws SQLException {
+
+        Constants.tmpImageName = "";
+        Constants.productNewImage = "";
+
         TextView tv;
         tv = rootView.findViewById(R.id.title);
         tv.setText(getString(R.string.title_new, "product"));
@@ -130,6 +136,13 @@ public class FrProductNew extends Fragment {
             et = rootView.findViewById(R.id.txt_price);
             obj.setPrice(Float.valueOf(et.getText().toString()));
 
+            if(Constants.productNewImage.compareTo("") != 0){
+                obj.setImage(Constants.productNewImage);
+            }
+            else{
+                Utils.alert(getString(R.string.validation_error_3));
+            }
+
             if(operation.toLowerCase().compareTo("add") == 0){
                 Constants.dbH.get_cat_products_DAO().create(obj);
                 Utils.alert(getString(R.string.msg_created));
@@ -155,6 +168,16 @@ public class FrProductNew extends Fragment {
                 }
             }
         });
+
+        final ImageView iv;
+        iv = rootView.findViewById(R.id.imgview_new_product);
+        iv.setOnClickListener(new ImageView.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Utils.showPictureDialog(1);
+            }
+        });
+
     }
 
     public void setOperation(String operation) {

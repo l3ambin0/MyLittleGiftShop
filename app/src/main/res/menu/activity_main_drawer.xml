@@ -8,6 +8,16 @@
         android:icon="@drawable/ic_menu_key"
         android:title="@string/menu_login" />
 
+    <item
+        android:id="@+id/nav_show_products"
+        android:icon="@drawable/ic_menu_shop"
+        android:title="@string/menu_show_products" />
+
+    <item
+        android:id="@+id/nav_show_cart"
+        android:icon="@drawable/ic_menu_share"
+        android:title="@string/menu_show_products" />
+
     <item android:title="@string/menu_admin">
         <menu>
             <item
