@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/module_title"
+        android:text="@string/title_category_management"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            style="@style/label.right"
+            android:text="@string/lbl_category_name"
+            />
+
+        <EditText
+            style="@style/input_fld.text"
+            android:id="@+id/txt_category_name"
+            />
+
+    </LinearLayout>
+
+    <include layout="@layout/buttons" />
+
+</LinearLayout>

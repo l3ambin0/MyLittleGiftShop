@@ -22,8 +22,131 @@
     </style>
 
     <style name="label.right" parent="label">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:gravity">right|center_vertical</item>
         <item name="android:paddingEnd">6dp</item>
+    </style>
+
+    <style name="input_fld" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="input_fld.number" parent="input_fld">
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="input_fld.decimal" parent="input_fld">
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+
+    <style name="input_fld.text" parent="input_fld">
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="input_fld.text.multi" parent="input_fld.text">
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:state_multiline">true</item>
+        <item name="android:lines">4</item>
+    </style>
+
+    <style name="input_fld.password" parent="input_fld">
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="input_fld.text.upper" parent="input_fld.text">
+        <item name="android:inputType">text|textCapCharacters</item>
+    </style>
+
+    <style name="spinner_fld" parent="Widget.AppCompat.Spinner">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">left|center_vertical|center</item>
+        <item name="android:layout_gravity">center_vertical|center</item>
+    </style>
+
+    <style name="Button.white.text" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Button.gray.text" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="Button.category" parent="Button.gray.text">
+        <item name="android:scaleX">.8</item>
+        <item name="android:scaleY">.8</item>
+        <item name="android:drawableEnd">@drawable/ic_menu_close</item>
+    </style>
+
+
+
+    <style name="Button.red" parent="Button.white.text">
+        <item name="android:backgroundTint">@android:color/holo_red_dark</item>
+    </style>
+
+    <style name="Button.purple" parent="Button.white.text">
+        <item name="android:backgroundTint">@android:color/holo_purple</item>
+    </style>
+
+    <style name="Button.blue" parent="Button.white.text">
+        <item name="android:backgroundTint">@android:color/holo_blue_dark</item>
+    </style>
+
+    <style name="Button.yellow" parent="Button.white.text">
+        <item name="android:backgroundTint">@android:color/holo_orange_light</item>
+    </style>
+
+    <style name="Button.green" parent="Button.white.text">
+        <item name="android:backgroundTint">@android:color/holo_green_light</item>
+    </style>
+
+    <style name="alert">
+        <item name="android:background">#616161</item>
+    </style>
+
+    <style name="alertText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/alert_color</item>
+    </style>
+
+    <style name="module_title" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="module_header" parent="TextAppearance.AppCompat.Title">
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="LabelInfo" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="LabelInfo.small" parent="LabelInfo">
+        <item name="android:textSize">5dp</item>
+    </style>
+
+    <style name="LabelInfo.ubic" parent="@android:style/TextAppearance.Small">
+        <item name="android:gravity">center|center_horizontal|center_vertical</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/info_text</item>
+    </style>
+
+    <style name="LabelInfo.about" parent="LabelInfo.ubic">
+        <item name="android:gravity">left</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
 </resources>
