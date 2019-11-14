@@ -12,8 +12,13 @@
   <action id="CopyPaths" />
   <action id="Debugger.EditArrayFilter" />
   <action id="Debugger.EditCustomField" />
+  <action id="EditorAddOrRemoveCaret" />
   <action id="Git.Reword.Commit">
     <keyboard-shortcut first-keystroke="shift f6" />
+  </action>
+  <action id="GotoDeclaration">
+    <keyboard-shortcut first-keystroke="f12" />
+    <mouse-shortcut keystroke="control button1" />
   </action>
   <action id="GotoNextBookmark" />
   <action id="GotoNextError">
